@@ -6,7 +6,7 @@ and Forgetting: A Latent Class Model for Measuring Learning* with the current
 
 The Git history is the version boundary:
 
-1. [`dataverse-original`](https://github.com/soodoku/guessing-and-forgetting/tree/dataverse-original)
+1. [`dataverse-original`](https://github.com/finite-sample/guessing-and-forgetting/tree/dataverse-original)
    is the unedited Harvard Dataverse deposit, with `data/` and `scripts/` at
    the repository root.
 2. `main` replaces the deposited scripts at those paths with the maintained
