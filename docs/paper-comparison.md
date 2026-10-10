@@ -12,10 +12,12 @@ HTML rendering in `tabs/paper_comparison.html`.
 
 The paper's mean T1/T2 alpha values (.495/.561), 18 of 23 increases, and mean
 raw/LCA/standard learning (.158/.210/.182) reproduce after rounding. The
-gender-gap results also reproduce after using the paper's male-minus-female
-sign convention.
+gender-gap estimates retain the paper's direction and similar magnitude after
+using its male-minus-female sign convention. They do not all match at the
+reported precision: the current raw knowledge gap rounds to .070 versus .067
+in the paper, and the LCA learning gap to -.006 versus -.007.
 
-Two quantities differ:
+Two item-level diagnostics have larger discrepancies:
 
 - The paper says LCA learning exceeds raw learning for 78.5% of items. The
   deposited code produces 80.8%; current `guess` produces 80.2%.
