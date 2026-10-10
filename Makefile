@@ -22,5 +22,6 @@ ci: check
 ci-docker:
 	docker run --rm -v "$(CURDIR):/project" -w /project \
 		-v r_renv_cache:/root/.cache/R/renv \
+		-e GHCRTS=-xr128m \
 		-e RENV_CONFIG_REPOS_OVERRIDE=https://packagemanager.posit.co/cran/latest \
 		rocker/verse:4.6.0 bash -c "make restore check"
