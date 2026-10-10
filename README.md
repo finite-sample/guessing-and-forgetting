@@ -90,7 +90,6 @@ All analysis code lives in `scripts/`. `99_run_all.R` loads `00_config.R` and
 | `data/derived/prepared_data.rds` | Generated, ignored prepared polls and benchmarks |
 | `scripts/00_config.R` | Paths, poll labels, guessing probabilities, plot theme, colours, dimensions, and table defaults |
 | `scripts/00_utils.R` | Shared functions for reading inputs, estimating models, and writing tables |
-| `scripts/00_utils.R` | Shared functions for reading inputs, estimating models, and writing tables |
 | `scripts/01_prepare_data.R` | Verify and read inputs, then save prepared data |
 | `scripts/02_estimate.R` | Estimate learning, reliability, and gender gaps; compare results with benchmarks |
 | `scripts/03_figures.R` | Write the poll-level learning figure |
