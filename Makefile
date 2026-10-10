@@ -1,7 +1,7 @@
 .PHONY: restore analysis test lint format check ci ci-docker
 
 restore:
-	Rscript --vanilla -e 'if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv", repos = "https://cloud.r-project.org"); renv::load(project = getwd()); renv::restore(prompt = FALSE)'
+	Rscript --vanilla -e 'source("renv/activate.R"); renv::load(project = getwd()); renv::restore(prompt = FALSE)'
 
 analysis:
 	Rscript scripts/99_run_all.R
