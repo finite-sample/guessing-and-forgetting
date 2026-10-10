@@ -9,3 +9,5 @@ renv/python/
 renv/sandbox/
 renv/staging/
 
+
+data/derived/

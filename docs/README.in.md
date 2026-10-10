@@ -40,15 +40,7 @@ Reliability rises in 18 of the 23 polls. Two diagnostics differ: the share of
 items for which model-based learning exceeds raw learning, and the share that
 passes the model's goodness-of-fit test.
 
-|Measure                           | Paper| Deposit| Current|
-|:---------------------------------|-----:|-------:|-------:|
-|Mean alpha, T1                    | 0.495|   0.495|   0.495|
-|Mean alpha, T2                    | 0.561|   0.561|   0.561|
-|Mean raw learning                 | 0.158|   0.158|   0.158|
-|Mean LCA learning                 | 0.210|   0.210|   0.210|
-|Mean standard-correction learning | 0.182|   0.182|   0.182|
-|Items where LCA exceeds raw       | 0.785|   0.808|   0.802|
-|Items fitting LCA                 | 0.831|   0.831|   0.751|
+{{RESULTS_TABLE}}
 
 Learning and item shares are reported as proportions; multiply by 100 for
 percentage points of learning or percent of items. Alpha is a reliability

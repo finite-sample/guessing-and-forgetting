@@ -1,6 +1,6 @@
 test_that("current reliability reproduces the paper", {
   reliability <- readr::read_csv(
-    project_file("output", "reliability.csv"),
+    project_file("tabs", "reliability.csv"),
     show_col_types = FALSE
   )
   expect_equal(nrow(reliability), 23)
@@ -11,7 +11,7 @@ test_that("current reliability reproduces the paper", {
 
 test_that("item output is complete", {
   items <- readr::read_csv(
-    project_file("output", "item_level.csv"),
+    project_file("tabs", "item_level.csv"),
     show_col_types = FALSE
   )
   expect_equal(nrow(items), 177)
@@ -20,7 +20,7 @@ test_that("item output is complete", {
 
 test_that("paper comparison distinguishes matching and changed quantities", {
   comparison <- readr::read_csv(
-    project_file("output", "paper_comparison.csv"),
+    project_file("tabs", "paper_comparison.csv"),
     show_col_types = FALSE
   )
   expect_equal(nrow(comparison), 13)

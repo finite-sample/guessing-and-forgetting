@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.0
+
+Numbered preparation, estimation, figure, and table stages share configuration
+in `scripts/00_config.R`. Reusable functions live in `R/`. Fixed paper/deposit
+benchmarks live in `data/benchmarks.csv`; all generated estimates and tables
+live in `tabs/`, and figures in `figs/`. Benchmark comparisons match metric
+names, so changing row order cannot attach an estimate to the wrong benchmark.
+The README is generated from `docs/README.in.md` and the current estimates.
+
 ## Current analysis
 
 The maintained checkpoint replaces the deposited implementation instead of
@@ -33,4 +42,4 @@ those portable files.
 
 The last two rows are the material discrepancies. Gender-gap estimates retain
 the paper's direction and magnitude after aligning its male-minus-female sign
-convention. `output/paper_comparison.csv` is the authoritative comparison.
+convention. `tabs/paper_comparison.csv` is the authoritative comparison.

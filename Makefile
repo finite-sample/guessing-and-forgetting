@@ -1,31 +1,26 @@
-.PHONY: analysis comparison tables test lint check ci ci-docker
+.PHONY: restore analysis test lint format check ci ci-docker
+
+restore:
+	Rscript --vanilla -e 'if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv", repos = "https://cloud.r-project.org"); renv::load(project = getwd()); renv::restore(prompt = FALSE)'
 
 analysis:
-	Rscript scripts/01_analysis.R
+	Rscript scripts/99_run_all.R
 
-comparison:
-	Rscript scripts/02_compare_paper.R
-
-tables:
-	Rscript scripts/03_tables.R
-
-test:
-	Rscript -e 'testthat::test_dir("tests/testthat")'
+test: analysis
+	Rscript -e 'testthat::test_dir("tests/testthat", stop_on_failure = TRUE)'
 
 lint:
-	Rscript -e 'lintr::lint_dir("R"); lintr::lint_dir("scripts"); lintr::lint_dir("tests")'
+	Rscript -e 'l <- unlist(lapply(c("R", "scripts", "tests"), lintr::lint_dir), recursive = FALSE); print(l); quit(status = as.integer(length(l) > 0))'
 
-check: test lint
+format:
+	Rscript -e 'for (p in c("R", "scripts", "tests")) styler::style_dir(p)'
 
-ci: analysis comparison tables check
+check: lint test
+
+ci: check
 
 ci-docker:
-	docker run --rm \
-		-e MAKEFLAGS="-e -j1" \
-		-e CXXFLAGS="-O0 -g0" \
-		-e CXX20FLAGS="-O0 -g0" \
-		-e RENV_CONFIG_CACHE_ENABLED=FALSE \
-		-e RENV_CONFIG_EXTERNAL_LIBRARIES=/usr/local/lib/R/site-library \
-		-e RENV_CONFIG_SYNCHRONIZED_CHECK=FALSE \
-		-v "$(CURDIR):/work" -w /work rocker/tidyverse:4.6.0 \
-		bash -lc 'apt-get update && apt-get install -y --no-install-recommends cmake curl git libnlopt-dev && Rscript -e '\''renv::restore(prompt = FALSE)'\'' && make ci'
+	docker run --rm -v "$(CURDIR):/project" -w /project \
+		-v r_renv_cache:/root/.cache/R/renv \
+		-e RENV_CONFIG_REPOS_OVERRIDE=https://packagemanager.posit.co/cran/latest \
+		rocker/verse:4.6.0 bash -c "make restore check"

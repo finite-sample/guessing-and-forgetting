@@ -1,11 +1,51 @@
-source("R/functions.R")
+fit_item_model <- function(pre, post) {
+  starts <- list(
+    NULL,
+    c(gg = .2, gk = .2, gd = .1, kk = .1, dg = .1, dk = .1, dd = .2, gamma = .2),
+    c(gg = .3, gk = .1, gd = .1, kk = .1, dg = .1, dk = .1, dd = .2, gamma = .25)
+  )
+  attempt <- function(start) {
+    tryCatch(
+      guess::fit_item_lca(pre, post, na_as = "dk", start = start),
+      error = function(error) NULL
+    )
+  }
+  fit <- starts |>
+    purrr::map(attempt) |>
+    purrr::compact() |>
+    purrr::pluck(1, .default = NULL)
+  if (is.null(fit)) {
+    stop("The current guess estimator failed for every documented starting value.")
+  }
+  fit
+}
 
-verify_sources()
-dir.create("output", showWarnings = FALSE)
+score_people <- function(pre, post, guessing_probability) {
+  adjusted <- guess::group_adj(
+    pre,
+    post,
+    guessing_probability,
+    knowledge_given_dont_know = 0,
+    na_as = "dk"
+  )$adjusted_responses
+  raw_pre <- rowMeans(replace(pre, is.na(pre), 0))
+  raw_post <- rowMeans(replace(post, is.na(post), 0))
+  tibble::tibble(
+    knowledge = raw_pre,
+    learning = raw_post - raw_pre,
+    adjusted_knowledge = rowMeans(adjusted$pre_test),
+    adjusted_learning = rowMeans(adjusted$post_test - adjusted$pre_test)
+  )
+}
 
-analyze_poll <- function(file, poll) {
+gender_gap <- function(score, female) {
+  gender_data <- tibble::tibble(score = score, female = female)
+  gender_data <- dplyr::filter(gender_data, !is.na(gender_data$female))
+  stats::coef(stats::lm(score ~ female, data = gender_data))[[2L]]
+}
+
+analyze_poll <- function(poll_data, file, poll) {
   message("Modern poll: ", file)
-  poll_data <- read_poll(file)
   lucky <- lucky_probabilities[[file]]
   tibble::tibble(items = ncol(poll_data$pre), lucky = length(lucky)) |>
     assertr::verify(items == lucky)
@@ -90,16 +130,15 @@ analyze_poll <- function(file, poll) {
   )
 }
 
-results <- purrr::map2(poll_manifest$file, poll_manifest$poll, analyze_poll)
 
-write_result <- function(component, filename) {
-  results |>
-    purrr::map(component) |>
-    purrr::list_rbind() |>
-    readr::write_csv(file.path("output", filename))
+compare_benchmarks <- function(benchmarks, current) {
+  stopifnot(!anyDuplicated(benchmarks$metric), setequal(benchmarks$metric, names(current)))
+  benchmarks |>
+    dplyr::mutate(
+      current_guess = unname(current[metric]),
+      deposit_difference = deposit - paper,
+      current_difference = current_guess - paper
+    ) |>
+    assertr::verify(!is.na(deposit)) |>
+    assertr::verify(!is.na(current_guess))
 }
-
-write_result("item", "item_level.csv")
-write_result("poll", "poll_level.csv")
-write_result("gender", "gender_gaps.csv")
-write_result("reliability", "reliability.csv")
