@@ -10,10 +10,10 @@ test: analysis
 	Rscript -e 'testthat::test_dir("tests/testthat", stop_on_failure = TRUE)'
 
 lint:
-	Rscript -e 'l <- unlist(lapply(c("R", "scripts", "tests"), lintr::lint_dir), recursive = FALSE); print(l); quit(status = as.integer(length(l) > 0))'
+	Rscript -e 'l <- unlist(lapply(c("scripts", "tests"), lintr::lint_dir), recursive = FALSE); print(l); quit(status = as.integer(length(l) > 0))'
 
 format:
-	Rscript -e 'for (p in c("R", "scripts", "tests")) styler::style_dir(p)'
+	Rscript -e 'for (p in c("scripts", "tests")) styler::style_dir(p)'
 
 check: lint test
 

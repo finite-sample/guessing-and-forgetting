@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.1
+
+All analysis code now lives in `scripts/`. Shared functions are collected in
+`00_utils.R`, alongside `00_config.R` and the numbered execution stages. The
+runner, tests, formatting commands, and README use the simpler layout.
+
 ## 0.2.0
 
 Numbered preparation, estimation, figure, and table stages share configuration

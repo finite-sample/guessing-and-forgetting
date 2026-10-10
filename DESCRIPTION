@@ -1,6 +1,6 @@
 Package: guessreplication
 Title: Reproduce Cor and Sood (2016)
-Version: 0.2.0
+Version: 0.2.1
 Authors@R: person("Gaurav", "Sood", role = c("aut", "cre"), email = "gsood07@gmail.com")
 Description: Reanalyzes the Cor and Sood (2016) replication data with the
     current guess package and compares the results with the paper and deposit.

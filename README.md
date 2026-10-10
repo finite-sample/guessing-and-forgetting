@@ -80,9 +80,8 @@ Edit `docs/README.in.md` to change this README; stage 04 supplies the result tab
 
 ## Files and pipeline
 
-`R/` contains reusable functions. `scripts/` contains configuration and numbered
-execution stages. `scripts/99_run_all.R` loads the helpers, then runs stages
-01–04 in order, each in its own environment.
+All analysis code lives in `scripts/`. `99_run_all.R` loads `00_config.R` and
+`00_utils.R`, then runs stages 01–04 in order, each in its own environment.
 
 | File or directory | Purpose |
 |---|---|
@@ -90,12 +89,13 @@ execution stages. `scripts/99_run_all.R` loads the helpers, then runs stages
 | `data/benchmarks.csv` | Fixed values from the paper and deposited workflow, with manuscript page references |
 | `data/derived/prepared_data.rds` | Generated, ignored prepared polls and benchmarks |
 | `scripts/00_config.R` | Paths, poll labels, guessing probabilities, plot theme, colours, dimensions, and table defaults |
+| `scripts/00_utils.R` | Shared functions for reading inputs, estimating models, and writing tables |
+| `scripts/00_utils.R` | Shared functions for reading inputs, estimating models, and writing tables |
 | `scripts/01_prepare_data.R` | Verify and read inputs, then save prepared data |
 | `scripts/02_estimate.R` | Estimate learning, reliability, and gender gaps; compare results with benchmarks |
 | `scripts/03_figures.R` | Write the poll-level learning figure |
 | `scripts/04_tables.R` | Write HTML tables and this README from the estimates |
 | `scripts/99_run_all.R` | Run the complete pipeline |
-| `R/sources.R`, `R/analysis.R`, `R/paper.R` | Input contracts, estimators, and output writers |
 | `tabs/` | Generated CSV estimates and HTML tables; `gender_gaps.csv` uses female-minus-male gaps |
 | `figs/` | Generated PDF and PNG figures |
 | `tests/testthat/` | Input, benchmark-matching, numerical reproduction, and lint checks |
